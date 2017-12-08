@@ -1,4 +1,4 @@
-package in.amagine.permissions;
+package in.amagine.permissions.base;
 
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -12,18 +12,19 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by administrator on 3/27/17.
- */
+import in.amagine.permissions.interfaces.INavigationListener;
 
-public class BaseActivity extends AppCompatActivity
+public class BaseActivity extends AppCompatActivity implements INavigationListener
 {
     private int                                 mRequestCode;
     private WeakReference<IPermissionRequest>   mIPermissionRequest;
 
-    public void askForPermission(String[] permissions, int requestCode)
+    @Override
+    public void askForPermission(String[] permissions, int requestCode, IPermissionRequest listener)
     {
         mRequestCode = requestCode;
+        mIPermissionRequest = new WeakReference<>(listener);
+
         List<String> permissionList = new LinkedList<>(Arrays.asList(permissions));
         for (Iterator<String> iterator = permissionList.iterator(); iterator.hasNext(); )
         {
@@ -43,11 +44,6 @@ public class BaseActivity extends AppCompatActivity
         {
             notifyListener(true, requestCode);
         }
-    }
-
-    public void setListener(IPermissionRequest listener)
-    {
-        mIPermissionRequest = new WeakReference<>(listener);
     }
 
     private void notifyListener(boolean allowed, int requestCode)

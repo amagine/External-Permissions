@@ -4,6 +4,8 @@ import android.Manifest;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import in.amagine.permissions.base.BaseActivity;
+
 public class MainActivity extends BaseActivity implements BaseActivity.IPermissionRequest
 {
     @Override
@@ -12,8 +14,7 @@ public class MainActivity extends BaseActivity implements BaseActivity.IPermissi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setListener(this);
-        askForPermission(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1000);
+        askForPermission(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1000, this);
     }
 
     @Override
